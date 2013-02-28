@@ -1,7 +1,6 @@
 
 
 
-
 #TODO if '__globals__' in module text, freak out
 #TODO if encodings are different, fail
 
