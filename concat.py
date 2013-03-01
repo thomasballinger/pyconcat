@@ -54,7 +54,6 @@ if __name__ == '__main__':
     parser.add_argument('output', default='main.py')
     parser.add_argument('-m', '--method', choices=['correct', 'naive', 'nomodules'], default='naive',
             help='Technique to use for creating a single file (defaults to "naive")')
-    parser.add_argument('-o', '--output', default='main.py')
     parser.add_argument('-x', '--executable', action='store_true', help='make new script executable')
 
     args = parser.parse_args()
