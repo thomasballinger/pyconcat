@@ -1,10 +1,65 @@
 
 
-
 #TODO if '__globals__' in module text, freak out
 #TODO if encodings are different, fail
 
 import modulefinder
+import sys
+import pprint
+
+import py2depgraph
+
+def get_deps_in_order(filename):
+    mf = py2depgraph.mymf()
+    mf.run_script(filename)
+    depgraph = mf._depgraph
+    pprint.pprint(depgraph)
+
+    imported = []
+    def mod_we_need(mod):
+        if mod.__name__ in imported:
+            return False
+        if mod.__name__ in sys.builtin_module_names:
+            return False
+        if mod.__file__[-3:] == '.so':
+            return False
+        if 'site-packages' in mod.__file__:
+            return True
+        if '/lib/python' in mod.__file__:
+            return False
+        return True
+
+    def leafgen(tree):
+        for leaf in tree:
+            mod = mf.modules[leaf]
+            if not mod_we_need(mod):
+                continue
+            if tree[leaf] == 1:
+                k = leaf
+                yield k
+            else:
+                for innerleaf in leafgen(tree[leaf]):
+                    yield innerleaf
+                if mod_we_need(mf.modules[leaf]):
+                    yield leaf
+
+    def no_repeats(iterable):
+        imported = []
+        for k in iterable:
+            if k in imported:
+                pass
+            else:
+                imported.append(k)
+                yield k
+
+    for x in no_repeats(leafgen(depgraph)):
+        print x
+
+get_deps_in_order('./main.py')
+sys.exit()
+
+print get_deps_in_order('./main.py')
+
 
 def concatenate(filename, method=None, output=None):
     finder = modulefinder.ModuleFinder(debug=0)
@@ -29,6 +84,7 @@ def build_main_file_with_module_objects(mainfile, modules, output):
         s = """
 def create_module(): # just for the scope barrier
     MODULE = imp.new_module('{name}')
+    __name__ = {name}
 {indented_module_code}
     for k, v in locals().items():
         setattr(MODULE, k, v)

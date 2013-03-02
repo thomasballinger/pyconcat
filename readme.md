@@ -22,3 +22,6 @@ First: figure out dependencies
 
 We could do this the same way (just dynamically recreate all the modules from
 big strings) or we could do something more interesting
+
+Don't conditionally import things! Or at least don't do it after code that would
+fail in a parser
