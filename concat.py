@@ -15,7 +15,7 @@ def get_deps_in_order(filename):
                 if depkey in depgraph:
                     depdict[depkey] = depgraph[depkey]
 
-    mf = py2depgraph.mymf(debug=10, excludes=['unittest'])
+    mf = py2depgraph.mymf(debug=0, excludes=['unittest'])
     mf.run_script(filename)
     depgraph = mf._depgraph
     link_graph(depgraph)
@@ -73,8 +73,7 @@ def build_main_file_with_module_objects(mainfile, modules, output):
             ['    '+line if line else ''
                 for line in open(filename).read().split('\n')])
         s = """
-# code for module {name}
-def create_module(): # just for the scope barrier
+def create_module(): # code for module {name}
     import sys, imp
     MODULE = imp.new_module('{name}')
     __name__ = '{name}'
@@ -84,8 +83,7 @@ def create_module(): # just for the scope barrier
     for k, v in locals().items():
         setattr(MODULE, k, v)
     return MODULE
-sys.modules['{name}'] = create_module()
-del create_module
+sys.modules['{name}'] = create_module(); del create_module
 """.format(name=name, indented_module_code=indented_module_code)
         return s
 
