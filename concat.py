@@ -21,6 +21,7 @@ def get_deps_in_order(filename):
     link_graph(depgraph)
 
     def mod_we_need(mod):
+        """Returns try if module is something we need to concatenate"""
         if mod.__name__ in sys.builtin_module_names:
             return False
         if mod.__file__[-3:] == '.so':
@@ -32,6 +33,7 @@ def get_deps_in_order(filename):
         return True
 
     def leafgen(tree):
+        """Walk the tree of dependencies depth-first, returning only leaves"""
         for leaf in tree:
             mod = mf.modules[leaf]
             if not mod_we_need(mod) and not mod.__name__ == '__main__':
@@ -45,6 +47,7 @@ def get_deps_in_order(filename):
                     yield mod
 
     def no_repeats(iterable):
+        """yields a value only the first time it occurs in iterable (by == equality)"""
         imported = []
         for k in iterable:
             if k in imported:
