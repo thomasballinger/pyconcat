@@ -1,24 +1,33 @@
-uglify.py
+pyconcat
+--------
 
-name to be changed later probably - it doesn't obfuscate, it just tries to
-concatenate.
+Tries to concatenate several python modules into a single script
 
-This is obviously a terrible idea! Don't use this!
+*This is obviously a terrible idea! Don't use this!*
 
-check out modulefinder and modulegraph for the dependencies step
+Instructions:
 
-Combines python files into one long file.
+* clone repo (`git clone https://github.com/thomasballinger/pyconcat.git`)
 
-Going to start with my files, then packages and dependencies, maybe down the
-line compiled stuff
+* navigate to the script with dependencies you're trying to concatenate
+
+* run `python ../../../pyconcat/pyconcat.py yourscriptwithdependencies.py alltogether.py`
+
+
+Notes
+-----
+
+* Going to start with my files, then packages and dependencies, maybe down the
+line compiled stuff? 
 
 I bet this would really screw up a lot of things; pickle comes to mind
 immediately
 
+* todo: check out modulefinder and modulegraph for the dependencies step
+
 We need to do some __name__ modifying, and some other things probably too
 
 First: figure out dependencies
-
 
 We could do this the same way (just dynamically recreate all the modules from
 big strings) or we could do something more interesting
