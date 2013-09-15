@@ -1,7 +1,13 @@
 pyconcat
 --------
 
-Tries to concatenate several python modules into a single script
+Tries to concatenate several python modules into a single script.
+Does this by creating module-like objects and sticking them in sys.modules
+for each module found to be a dependency.
+
+As done as I'm going to make it for a while, since acheived the goal
+of concatenating my [toy bittorrent
+client](https://github.com/thomasballinger/bittorrent).
 
 *This is obviously a terrible idea! Don't use this!*
 
@@ -12,6 +18,12 @@ Instructions:
 * navigate to the script with dependencies you're trying to concatenate
 
 * run `python ../../../pyconcat/pyconcat.py yourscriptwithdependencies.py alltogether.py`
+
+See also
+--------
+
+pybreeder [https://github.com/pagekite/PyBreeder] by @BjarniRunar looks like a
+more sensible way to go about this, instead of building fake modules.
 
 
 Notes
