@@ -25,7 +25,6 @@ See also
 pybreeder [https://github.com/pagekite/PyBreeder] by @BjarniRunar looks like a
 more sensible way to go about this, instead of building fake modules.
 
-
 Notes
 -----
 
